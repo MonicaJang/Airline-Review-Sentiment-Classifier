@@ -1,12 +1,6 @@
 # ✈️ What Drives Passenger Dissatisfaction?
 ### A Rule-Based Aspect Sentiment Analysis and Machine Learning Approach to Predicting Airline Recommendation
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square&logo=python)
-![NLP](https://img.shields.io/badge/NLP-VADER%20%7C%20TextBlob-green?style=flat-square)
-![ML](https://img.shields.io/badge/ML-Logistic%20Regression%20%7C%20Random%20Forest%20%7C%20XGBoost-orange?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square)
-
----
 
 ## 📋 Overview
 
