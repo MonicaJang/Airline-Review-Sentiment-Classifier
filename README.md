@@ -15,6 +15,7 @@ Rather than relying on structured sub-ratings (which suffer from up to **74.5% m
 | Property | Details |
 |---|---|
 | **Source** | [Skytrax Airline Reviews](https://www.airlinequality.com) |
+| **Download from Kaggle:** [https://www.kaggle.com/datasets/juhibhojani/airline-reviews] |
 | **Records** | 23,171 reviews |
 | **Coverage** | 497 airlines, 2002–2023 |
 | **Target Variable** | `recommended` (yes / no) |
@@ -69,27 +70,24 @@ A binary `covid_period` dummy variable (reviews from **2020–2022**) is include
 ## 🗂️ Repository Structure
 
 ```
-airline-review-aspect-sentiment/
+airline-review-sentiment-classifier/
 │
 ├── data/
-│   ├── raw/                    # Original Skytrax dataset
-│   └── processed/              # Cleaned & feature-engineered data
-│
-├── notebooks/
-│   ├── 01_eda.ipynb            # Exploratory data analysis
-│   ├── 02_aspect_extraction.ipynb   # Keyword matching & sentiment scoring
-│   ├── 03_modeling.ipynb       # Classifier training & ablation study
-│   └── 04_shap_interpretation.ipynb # SHAP value analysis
+│   ├── raw/
+│   └── processed/
 │
 ├── src/
-│   ├── aspect_sentiment.py     # Rule-based aspect sentiment pipeline
-│   ├── features.py             # Feature set construction (A, B, C)
-│   ├── models.py               # Model training & evaluation
-│   └── utils.py                # Helper functions
+│   ├── 01_eda_cleaning.py
+│   ├── 02_preprocessing.py
+│   ├── 03_vader_sentiment.py
+│   ├── 04_aspect_sentiment.py
+│   ├── 05_feature_sets.py
+│   ├── 06_modeling.py
+│   └── 07_shap.py
 │
 ├── results/
-│   ├── figures/                # Plots, SHAP summary charts
-│   └── metrics/                # Classification reports, ablation table
+│   ├── figures/
+│   └── metrics/
 │
 ├── requirements.txt
 └── README.md
