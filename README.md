@@ -15,7 +15,7 @@ Rather than relying on structured sub-ratings (which suffer from up to **74.5% m
 | Property | Details |
 |---|---|
 | **Source** | [Skytrax Airline Reviews](https://www.airlinequality.com) |
-| **Download from Kaggle:** [https://www.kaggle.com/datasets/juhibhojani/airline-reviews] |
+| **Kaggle Download Link** | [https://www.kaggle.com/datasets/juhibhojani/airline-reviews] |
 | **Records** | 23,171 reviews |
 | **Coverage** | 497 airlines, 2002–2023 |
 | **Target Variable** | `recommended` (yes / no) |
