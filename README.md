@@ -13,6 +13,22 @@ This study investigates how different service feature representations of passeng
 
 The central research question is whether enriching feature representations leads to meaningful improvements in predicting passenger recommendation decisions.
 
+----
+
+## 🎯 Expected Key Insights
+
+- Which feature set is most predictive of recommendation outcomes?
+- Which service aspects have the greatest impact on whether a review recommends the service?
+- How much does performance actually differ between VADER, Rule-based VADER, and BERT approaches?
+- How do passenger preferences change over time?
+
+## ⭐ Exploratory Insights (separate from the text analysis)
+
+- Which service aspects saw the sharpest sentiment decline during COVID?
+- Which aspects recovered fastest post-pandemic?
+- How did aspect-level sentiment shift over the course of the COVID period?
+
+  
 ---
 
 ## 📦 Dataset
