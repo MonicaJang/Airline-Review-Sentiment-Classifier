@@ -1,17 +1,14 @@
-# ✈️ What Makes Passenger Recommend an Airline? - Airline Review Sentiment Classifier
+# ✈️ What Makes Passenger Recommend an Airline?
+---
 
 ## 📋 Overview
 
 This study investigates how different service feature representations of passenger reviews affect the predictive performance of recommendation outcomes. Specifically, it compares five approaches:
 
 - **Numerical Ratings Only (Set A):** Predicting recommendation using only the structured numerical sub-ratings provided by passengers.
-
 - **Document-Level Sentiment (Set B):** Predicting recommendation using overall sentiment scores (VADER) extracted from the full review text, without distinguishing between service aspects.
-
 - **Rule-Based Aspect Sentiment (Set C):** Predicting recommendation using sentiment scores extracted for manually defined five service aspects (seat, food, staff, ground service, entertainment), identified through keyword matching and scored using VADER.
-
 - **VADER + Rule-based Sentiment (Set D):** Combines the outputs of Set B and Set C. No additional preprocessing required as each component follows its respective pipeline.
-
 - **Deep Learning-Based Aspect Sentiment (Set E):** Predicting recommendation using aspect-level sentiment scores extracted via a pre-trained Aspect-Based Sentiment Analysis (ABSA) BERT model.
 
 The central research question is whether enriching feature representations leads to meaningful improvements in predicting passenger recommendation decisions.
@@ -44,7 +41,7 @@ To enable a direct comparison between passenger-assigned numerical scores and te
 | 🎬 Entertainment | 'entertainment', 'screen', 'movie', 'ife', 'wifi', 'music' |
 | ⏱️ Ground Service | 'delay', 'late', 'on time', 'punctual', 'schedule', 'depart', 'cancel', 'luggage', 'suitcase', 'baggage', 'lost', 'checkin', 'check-in', 'refund', 'booking', 'boarding'| 
 
-*ife stands for In-Flight Entertainment
+**ife stands for In-Flight Entertainment**
 
 
 ### 2. Text Pre-Processing
@@ -69,7 +66,6 @@ To enable a direct comparison between passenger-assigned numerical scores and te
 
 ### 3. Sentiment Scoring
 
-Sentiment analysis are scored using following models:
 - **Document-Level:** VADER implementation on the full text
 - **Rule-Based Aspect-Level:** Custom-curated keyword dictionaries mapped to specific aspects, scored via VADER
 - **Deep Learning Aspect-Level:** Pre-trained ABSA BERT model
@@ -86,8 +82,8 @@ Sentiment analysis are scored using following models:
 | E1 | ABSA-BERT full inference scores | None |
 | E2 | ABSA-BERT keyword-gated scores | Yes → not mentioned; retained as NaN |
 
-**Common Features for All Sets**
-- `Verified`, `Type Of Traveller`, `Seat Type`, `Covid_Period`, `review_length`
+**Common Features for All Sets**: 
+`Verified`, `Type Of Traveller`, `Seat Type`, `Covid_Period`, `review_length`
 
 
 ### 5. Classification Models
@@ -101,7 +97,8 @@ Sentiment analysis are scored using following models:
 **SHAP values** are computed on the best-performing model to quantify each service dimension's contribution to the recommendation prediction.
 
 ### 7. COVID Control
-A binary `covid_period` dummy variable (reviews from **2020–2022**) is included to control for pandemic-related sentiment shifts.
+A binary `covid_period` dummy variable (reviews from 2020–2022) is included to control for pandemic-related sentiment shifts.
+
 
 ---
 
@@ -137,8 +134,8 @@ Airline-Review-Sentiment-Classifier/
 
 ```bash
 # Clone the repository
-git clone https://github.com/<MonicaJang>/Airline-Review-Sentiment-Classifier.git
-cd airline-review-aspect-sentiment
+git clone https://github.com/MonicaJang/Airline-Review-Sentiment-Classifier.git
+cd Airline-Review-Sentiment-Classifier
 
 # Create a virtual environment
 python -m venv venv
@@ -148,41 +145,36 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Key Dependencies
-
 ```
+# Key Dependencies
 pandas, numpy, scikit-learn, xgboost
 nltk, vaderSentiment, textblob
 shap, matplotlib, seaborn
 ```
 
+
 ---
 
 ## 🚀 Quickstart
 
-```python
-from src.aspect_sentiment import AspectSentimentExtractor
+Notebooks are numbered to reflect the pipeline order — run them sequentially:
 
-extractor = AspectSentimentExtractor()
-scores = extractor.extract("The crew was fantastic but the food was terrible and we arrived 2 hours late.")
-
-# Output:
-# {
-#   'cabin_crew':   0.82,
-#   'food':        -0.65,
-#   'punctuality': -0.74,
-#   'seat':         0.00,
-#   'entertainment': 0.00
-# }
+```
+src/01_eda_cleaning.ipynb        # EDA & data cleaning
+src/02_text_preprocessing.ipynb  # Text preprocessing
+src/03_vader_sentiment.ipynb     # Document-level VADER sentiment (Set B)
+src/04_aspect_sentiment.ipynb    # Rule-based aspect sentiment (Set C)
+src/05_absa_bert.ipynb           # ABSA BERT aspect sentiment (Set E)
+src/06_feature_sets.ipynb        # Feature set construction (A–E)
+src/07_modeling.ipynb            # Model training, evaluation & SHAP
 ```
 
-Run the full pipeline:
+To reproduce the full pipeline, open and run each notebook in order via Jupyter Lab/Notebook:
 
 ```bash
-python src/07_modeling.ipynb --feature-set C --model xgboost --shap
+jupyter lab
 ```
-
 
 ---
 
-> **Data source**: Airline reviews scraped from [airlinequality.com](https://www.airlinequality.com) via the publicly available Skytrax dataset. This project is for academic research purposes only.
+**Data source**: Airline reviews scraped from [airlinequality.com](https://www.airlinequality.com) via the publicly available Skytrax dataset. This project is for academic research purposes only.
