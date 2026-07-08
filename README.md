@@ -1,12 +1,20 @@
-# ✈️ What Drives Passenger Dissatisfaction?
-### A Rule-Based Aspect Sentiment Analysis and Machine Learning Approach to Predicting Airline Recommendation
-
+# ✈️ What Makes Passenger Recommend an Airline? - Airline Review Sentiment Classifier
 
 ## 📋 Overview
 
-This project investigates **which dimensions of airline service quality** — as expressed in unstructured passenger review text — most strongly predict whether a traveller would **recommend an airline**.
+This study investigates how different service feature representations of passenger reviews affect the predictive performance of recommendation outcomes. Specifically, it compares five approaches:
 
-Rather than relying on structured sub-ratings (which suffer from up to **74.5% missing data** in this dataset), this study extracts **aspect-level sentiment scores** directly from review text using a rule-based NLP pipeline, then feeds those scores into machine learning classifiers to predict the binary recommendation outcome.
+- **Numerical Ratings Only (Set A):** Predicting recommendation using only the structured numerical sub-ratings provided by passengers.
+
+- **Document-Level Sentiment (Set B):** Predicting recommendation using overall sentiment scores (VADER) extracted from the full review text, without distinguishing between service aspects.
+
+- **Rule-Based Aspect Sentiment (Set C):** Predicting recommendation using sentiment scores extracted for manually defined five service aspects (seat, food, staff, ground service, entertainment), identified through keyword matching and scored using VADER.
+
+- **VADER + Rule-based Sentiment (Set D):** Combines the outputs of Set B and Set C. No additional preprocessing required as each component follows its respective pipeline.
+
+- **Deep Learning-Based Aspect Sentiment (Set E):** Predicting recommendation using aspect-level sentiment scores extracted via a pre-trained Aspect-Based Sentiment Analysis (ABSA) BERT model.
+
+The central research question is whether enriching feature representations leads to meaningful improvements in predicting passenger recommendation decisions.
 
 ---
 
@@ -20,49 +28,79 @@ Rather than relying on structured sub-ratings (which suffer from up to **74.5% m
 | **Coverage** | 497 airlines, 2002–2023 |
 | **Target Variable** | `recommended` (yes / no) |
 
-> ⚠️ Structured sub-rating fields have substantial missingness (up to 74.5% for certain fields), which motivates the text-based aspect sentiment approach.
-
 ---
 
 ## 🔍 Methodology
 
-### 1. Aspect Identification
-Sentences in each review are matched against **dimension-specific keyword dictionaries** to identify which service aspect is being discussed.
+### 1. Service Aspect Identification
 
-| Aspect | Example Keywords |
+To enable a direct comparison between passenger-assigned numerical scores and text-derived sentiment, five key service dimensions were selected for aspect-level sentiment extraction (Seat, Food, Staff, Ground Service, and Entertainment). Theses were intentionally aligned with the 7 core numerical sub-ratings present in the Skytrax dataset (Seat Comfort, Cabin Staff Service, Food & Beverages, Ground Service, Inflight Entertainment, Wifi & Connectivity, Value For Money).
+
+| Aspect | Keywords |
 |---|---|
-| 🪑 Seat / Comfort | `seat`, `legroom`, `comfort`, `recline`, `space` |
-| 👩‍✈️ Cabin Crew / Staff | `crew`, `staff`, `attendant`, `service`, `flight attendant` |
-| 🍽️ Food & Beverage | `food`, `meal`, `drink`, `snack`, `beverage` |
-| 🎬 Inflight Entertainment | `entertainment`, `IFE`, `screen`, `movie`, `wifi` |
-| ⏱️ Operational Punctuality | `delay`, `on time`, `punctual`, `departure`, `schedule` |
+| 🪑 Seat | 'seat', 'legroom', 'comfort', 'recline', 'space', 'cushion', 'comfy', 'spacious', 'stretch' |
+| 👩‍✈️ Staff | 'crew', 'staff', 'attendant', 'stewardess', 'service', 'friendly', 'rude', 'attentive' |
+| 🍽️ Food | 'food', 'meal', 'drink', 'snack', 'beverage', 'dining', 'menu', 'vegetarian' |
+| 🎬 Entertainment | 'entertainment', 'screen', 'movie', 'ife', 'wifi', 'music' |
+| ⏱️ Ground Service | 'delay', 'late', 'on time', 'punctual', 'schedule', 'depart', 'cancel', 'luggage', 'suitcase', 'baggage', 'lost', 'checkin', 'check-in', 'refund', 'booking', 'boarding'| 
 
-### 2. Sentiment Scoring
-Matched sentences are scored using two lexicon-based tools:
-- **VADER** — optimized for short, informal, social-text sentiment
-- **TextBlob** — polarity and subjectivity scores
+*ife stands for In-Flight Entertainment
 
-Each review yields **per-aspect sentiment scores** (compound score aggregated across matched sentences).
 
-### 3. Feature Sets (Ablation Study)
+### 2. Text Pre-Processing
 
-Three feature configurations are compared:
+- **Set A (Numerical Only)**: This set relies on numerical sub-ratings as features. Hence, text pre-processing is not required.
+- **Set B (VADER)**: Minimal preprocessing to preserve sentiment signals such as negations, punctuation emphasis (!, ?), and sentence structure. Stopword removal and tokenization are intentionally excluded as they may distort VADER's sentiment scoring.
+- **Set C (Rule-based Aspect Sentiment)**: Full preprocessing pipeline applied to improve keyword matching accuracy. Contraction expansion is performed before stopword removal to ensure negation words (e.g., not) are retained as separate tokens.
+- **Set D (VADER + Rule-based)**: Combines the outputs of Set B and Set C. No additional preprocessing required as each component follows its respective pipeline.
+- **Set E (ABSA BERT)**: Minimal preprocessing similar to Set B. Stopword removal and lemmatization are excluded as BERT relies on full sentence context and handles subword tokenization (WordPiece) internally.
 
-| Set | Features | Purpose |
+| Technique | Set B | Set C | Set E |
+|---|---|---|---|
+| Lowercasing | ✅ | ✅ | ✅ |
+| HTML / Special Character Removal | ✅ | ✅ | ✅ |
+| Whitespace Normalization | ✅ | ✅ | ✅ |
+| Contraction Expansion | ✅ | ✅ (before stopword removal) | ✅ |
+| Punctuation Removal (partial) | ✅ | ✅ | ✅ |
+| Stopword Removal | ❌ | ✅ | ❌ |
+| Tokenization | ❌ | ✅ | ❌ |
+| Lemmatization | ❌ | ✅ | ❌ |
+
+
+### 3. Sentiment Scoring
+
+Sentiment analysis are scored using following models:
+- **Document-Level:** VADER implementation on the full text
+- **Rule-Based Aspect-Level:** Custom-curated keyword dictionaries mapped to specific aspects, scored via VADER
+- **Deep Learning Aspect-Level:** Pre-trained ABSA BERT model
+
+
+### 4. Feature Sets
+
+| Set | Core Features | NaN in Core |
 |---|---|---|
-| **(A) Baseline** | Available structured sub-ratings | Numerical benchmark |
-| **(B) Document-level** | VADER sentiment on full review text | Coarse NLP baseline |
-| **(C) Aspect-level** | 5 × aspect sentiment scores + COVID dummy | Full proposed approach |
+| A | Numerical sub-ratings | Yes → imputed in modelling pipeline |
+| B | VADER document-level scores | None |
+| C | Rule-based aspect VADER scores | Yes → not mentioned or insufficient tokens to compute a score; retained as NaN |
+| D | B + C | Yes → aspect columns only; retained as NaN |
+| E1 | ABSA-BERT full inference scores | None |
+| E2 | ABSA-BERT keyword-gated scores | Yes → not mentioned; retained as NaN |
 
-### 4. Classification Models
+**Common Features for All Sets**
+- `Verified`, `Type Of Traveller`, `Seat Type`, `Covid_Period`, `review_length`
+
+
+### 5. Classification Models
 - Logistic Regression
 - Random Forest
 - XGBoost
+- Other gradient boosting varaiants (potentially)
 
-### 5. Interpretability
+
+### 6. Interpretability
 **SHAP values** are computed on the best-performing model to quantify each service dimension's contribution to the recommendation prediction.
 
-### 6. COVID Control
+### 7. COVID Control
 A binary `covid_period` dummy variable (reviews from **2020–2022**) is included to control for pandemic-related sentiment shifts.
 
 ---
@@ -70,26 +108,26 @@ A binary `covid_period` dummy variable (reviews from **2020–2022**) is include
 ## 🗂️ Repository Structure
 
 ```
-airline-review-sentiment-classifier/
+Airline-Review-Sentiment-Classifier/
 │
 ├── data/
-│   ├── raw/
+│   ├── raw/ (gitignored)
 │   └── processed/
 │
 ├── src/
-│   ├── 01_eda_cleaning.py
-│   ├── 02_preprocessing.py
-│   ├── 03_vader_sentiment.py
-│   ├── 04_aspect_sentiment.py
-│   ├── 05_feature_sets.py
-│   ├── 06_modeling.py
-│   └── 07_shap.py
+│   ├── 01_eda_cleaning.ipynb
+│   ├── 02_text_preprocessing.ipynb
+│   ├── 03_vader_sentiment.ipynb
+│   ├── 04_aspect_sentiment.ipynb
+│   ├── 05_absa_bert.ipynb
+│   ├── 06_feature_sets.ipynb
+│   └── 07_modeling.ipynb
 │
 ├── results/
 │   ├── figures/
 │   └── metrics/
 │
-├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
@@ -99,7 +137,7 @@ airline-review-sentiment-classifier/
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/airline-review-aspect-sentiment.git
+git clone https://github.com/<MonicaJang>/Airline-Review-Sentiment-Classifier.git
 cd airline-review-aspect-sentiment
 
 # Create a virtual environment
@@ -141,54 +179,9 @@ scores = extractor.extract("The crew was fantastic but the food was terrible and
 Run the full pipeline:
 
 ```bash
-python src/models.py --feature-set C --model xgboost --shap
+python src/07_modeling.ipynb --feature-set C --model xgboost --shap
 ```
 
----
-
-## 📊 Expected Outputs
-
-- **Ablation table**: Accuracy, F1, AUC across feature sets A / B / C
-- **SHAP summary plot**: Feature importance ranked by mean |SHAP value|
-- **Per-aspect sentiment distributions**: Violin plots by recommendation class
-- **COVID period analysis**: Sentiment trend comparison pre / during / post pandemic
-
----
-
-## 🧪 Ablation Study Design
-
-```
-Feature Set A  ──►  Logistic Regression  ─┐
-Feature Set B  ──►  Random Forest        ─┼──► Compare AUC / F1
-Feature Set C  ──►  XGBoost             ─┘
-                        │
-                        ▼
-                  Best Model
-                        │
-                        ▼
-                  SHAP Interpretation
-```
-
----
-
-## 📄 Citation
-
-If you use this work, please cite:
-
-```bibtex
-@misc{airline_aspect_sentiment_2024,
-  title  = {What Drives Passenger Dissatisfaction? A Rule-Based Aspect Sentiment Analysis
-            and Machine Learning Approach to Predicting Airline Recommendation},
-  year   = {2024},
-  url    = {https://github.com/<your-username>/airline-review-aspect-sentiment}
-}
-```
-
----
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
