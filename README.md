@@ -99,8 +99,10 @@ To enable a direct comparison between passenger-assigned numerical scores and te
 | E2 | ABSA-BERT keyword-gated scores | Yes → not mentioned; retained as NaN |
 
 **Common Features for All Sets**: 
-`Verified`, `Type Of Traveller`, `Seat Type`, `Covid_Period`, `review_length`
+`Verified`, `Type Of Traveller`, `Seat Type`, `review_length`
 
+> `Verified` reflects a self-selected user action (whether the reviewer chose to submit proof of travel) rather than an objective quality signal about the flight itself. It is retained as a predictive feature because the lower recommendation rate among verified reviewers holds consistently across most Traveller Type and Seat Type subgroups (with the exception of First Class, likely due to small 
+sample size), suggesting it captures a reproducible reviewer behavioral tendency (e.g., a propensity toward more critical, effortful reviews) rather than actual service quality.
 
 ### 5. Classification Models
 - Logistic Regression
