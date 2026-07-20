@@ -126,8 +126,9 @@ A binary `covid_period` dummy variable (reviews from 2020–2022) is included to
 Airline-Review-Sentiment-Classifier/
 │
 ├── data/
-│   ├── raw/ (gitignored)
-│   └── processed/
+│   ├── Airline_review_rawdata.csv (gitignored)
+│   ├── 01_processed/
+│   └── 02_final_sets/
 │
 ├── src/
 │   ├── 01_eda_cleaning.ipynb
