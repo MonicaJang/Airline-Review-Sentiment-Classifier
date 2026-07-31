@@ -1,0 +1,26 @@
+Aspect,Set,Raw_Feature,Mean_Abs_SHAP,Rank_within_Set,Total_Features_in_Set,Normalized_Rank
+Seat,A,num_continuous__Seat Comfort,0.4336528345944314,4,22,0.14285714285714285
+Seat,C,num_nan__aspect_seat,0.17248665988238712,5,22,0.19047619047619047
+Seat,D,num_nan__aspect_seat,0.1727391562492876,8,26,0.28
+Seat,E1,num_continuous__absa_seat,0.1790959162624221,4,17,0.1875
+Seat,E2,num_nan__absa_seat_e2,0.336123500709038,3,22,0.09523809523809523
+Staff,A,num_continuous__Cabin Staff Service,0.6424464732838119,3,22,0.09523809523809523
+Staff,C,num_nan__aspect_staff,1.1484731854819183,1,22,0.0
+Staff,D,num_nan__aspect_staff,0.365712008300806,4,26,0.12
+Staff,E1,num_continuous__absa_staff,1.1960951618905247,1,17,0.0
+Staff,E2,num_nan__absa_staff_e2,1.843654073987821,1,22,0.0
+Food,A,num_continuous__Food & Beverages,0.1944965765649814,5,22,0.19047619047619047
+Food,C,num_nan__aspect_food,0.3334558417122657,4,22,0.14285714285714285
+Food,D,num_nan__aspect_food,0.27006813204286356,6,26,0.2
+Food,E1,num_continuous__absa_food,0.6500379524569174,2,17,0.0625
+Food,E2,num_nan__absa_food_e2,0.2935362987916294,4,22,0.14285714285714285
+Ground Service,A,num_continuous__Ground Service,0.7695670287202543,2,22,0.047619047619047616
+Ground Service,C,num_nan__aspect_ground_service,0.5184072026972167,2,22,0.047619047619047616
+Ground Service,D,num_nan__aspect_ground_service,0.15285771009835689,9,26,0.32
+Ground Service,E1,num_continuous__absa_ground_service,0.24109780252302634,3,17,0.125
+Ground Service,E2,num_nan__absa_ground_service_e2,0.8878482218180308,2,22,0.047619047619047616
+Entertainment,C,num_nan__aspect_entertainment,0.02047469988809067,9,22,0.38095238095238093
+Entertainment,D,num_nan__aspect_entertainment,0.04292791386784094,14,26,0.52
+Entertainment,E1,num_continuous__absa_entertainment,0.13163609904369644,5,17,0.25
+Entertainment,E2,num_nan__absa_entertainment_e2,0.07433274863577,8,22,0.3333333333333333
+Value For Money,A,num_continuous__Value For Money,1.7447455046766858,1,22,0.0

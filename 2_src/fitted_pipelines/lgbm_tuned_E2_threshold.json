@@ -1,0 +1,7 @@
+{
+  "set": "E2",
+  "model": "LightGBM",
+  "threshold": 0.437,
+  "calibrated_on": "train-side TimeSeriesSplit CV validation folds only",
+  "note": "Use pipe.predict_proba(X)[:, 1] >= threshold at inference time, NOT pipe.predict(X) (which hard-codes 0.5)."
+}

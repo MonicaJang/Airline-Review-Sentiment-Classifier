@@ -1,11 +1,10 @@
 """
-This is shared preprocessing pipeline logic for 07_modeling_pipeline, 08_hyperparameter_tuning, and 09_shap_analysis.
+This is shared preprocessing pipeline logic for 07_modelling_pipeline, 08_hyperparameter_tuning, and 09_shap_analysis.
 
-GroupMedianImputer (+ any other custom transformer) must live in an importable module, not redefined inline inside each notebook.
-joblib/pickle serializes a class by its import path (module.ClassName). 
-If the class is defined inside a notebook's __main__ namespace, a pipeline saved in one notebook's kernel
-cannot be unpickled in a different notebook's kernel, because that kernel's __main__ has
-no such class. Importing from this shared file gives every notebook the same import path, so joblib.load() works everywhere.
+Custom transformer including GroupMedianImputer must live in an importable module, not redefined inline inside each notebook.
+If the class is defined inside a notebook's __main__ namespace, 
+a pipeline saved in one notebook's kernel cannot be unpickled in a different notebook's kernel. 
+Importing from this shared file gives every notebook the same import path, so joblib.load() works everywhere.
 """
 
 import numpy as np
@@ -47,12 +46,13 @@ NATIVE_NAN_MODELS = {"XGBoost", "LightGBM"}
 
 
 class GroupMedianImputer(BaseEstimator, TransformerMixin):
-    """
-    Impute Set A rating columns using the group median of a chosen grouping column (default: Type Of Traveller),
-    and 'Unknown' always falls back to the overall median - this validated in 06_feature_sets.
-    See 07_modeling_pipeline, Section 4, which runs on the train split. If that conclusion ever changes
-    (e.g. Seat Type wins instead), the group_col argument is updated where this class is called, not here.
-    All statistics learned ONLY from fit() data.
+    """Impute Set A rating columns using the group median of a chosen grouping column (default: Type Of Traveller).
+    'Unknown' (and any unseen category) always falls back to the overall median, since 06_feature_sets.ipynb found 
+    Unknown is too unreliable a group to trust its own median.
+    The default group_col="Type Of Traveller" reflects a separate comparison re-validated on train set (07_modelling_pipeline.ipynb, Section 3)
+    If that conclusion ever changes, update the group_col argument where this class is called -- not here, since this class
+    does not perform that comparison itself.
+    All statistics are learned ONLY from fit() data.
     """
 
     def __init__(self, rating_cols, group_col="Type Of Traveller", unknown_label="Unknown"):
@@ -88,7 +88,7 @@ def split_continuous_and_binary(numeric_cols):
     """
     Separate genuinely continuous columns from 0/1 binary columns. 
     Binary columns are excluded from StandardScaler even in the Logistic Regression branch
-    to aviod distorting how L2 regularization weighs it relative to other features.
+    to avoid distorting how L2 regularization weighs it relative to other features.
     """
     binary_cols = [c for c in numeric_cols if c == "Verified" or c.endswith("_missing")]
     continuous_cols = [c for c in numeric_cols if c not in binary_cols]
@@ -124,7 +124,7 @@ def build_pipeline(set_name, model_name, train_df, scale_pos_weight=1.0, n_jobs=
     transformers = [
         ("cat", OneHotEncoder(handle_unknown="ignore"), CAT_COLS),
         ("num_continuous", numeric_transform, continuous_cols),
-        ("num_binary", "passthrough", binary_cols),  # never scaled, regardless of model
+        ("num_binary", "passthrough", binary_cols),
     ]
     if nan_numeric:
         if model_name in NATIVE_NAN_MODELS:
@@ -139,9 +139,6 @@ def build_pipeline(set_name, model_name, train_df, scale_pos_weight=1.0, n_jobs=
 
     steps = []
     if schema["set_a_rating_cols"] is not None:
-        # group_col not passed -> defaults to "Type Of Traveller". That choice is
-        # validated in 07_modeling_pipeline.ipynb (Section 4, the assert traveller_wins
-        # cell), not here -- this function only assembles the pipeline.
         steps.append(("set_a_impute", GroupMedianImputer(schema["set_a_rating_cols"])))
     steps.append(("preprocess", preprocessor))
     steps.append(("model", get_model(model_name, scale_pos_weight, n_jobs=n_jobs)))
@@ -153,7 +150,7 @@ def load_sets_and_split(data_dir, set_files, test_frac=0.2):
     sets = {name: pd.read_csv(data_dir + fname, parse_dates=["Review Date", "Date Flown"])
             for name, fname in set_files.items()}
 
-    sorted_by_date = sets["A"].sort_values("Review Date").reset_index(drop=True)
+    sorted_by_date = sets["A"].sort_values(["Review Date", ID_COL], kind="stable").reset_index(drop=True)
     n = len(sorted_by_date)
     cut = int(n * (1 - test_frac))
     train_ids = sorted_by_date.iloc[:cut][ID_COL].values
@@ -163,7 +160,7 @@ def load_sets_and_split(data_dir, set_files, test_frac=0.2):
     for name, df in sets.items():
         df = df.copy()
         df["Verified"] = df["Verified"].astype(int)
-        df_train = df[df[ID_COL].isin(train_ids)].sort_values("Review Date").reset_index(drop=True)
-        df_test = df[df[ID_COL].isin(test_ids)].sort_values("Review Date").reset_index(drop=True)
+        df_train = df[df[ID_COL].isin(train_ids)].sort_values(["Review Date", ID_COL], kind="stable").reset_index(drop=True)
+        df_test = df[df[ID_COL].isin(test_ids)].sort_values(["Review Date", ID_COL], kind="stable").reset_index(drop=True)
         splits[name] = {"train": df_train, "test": df_test}
     return sets, splits

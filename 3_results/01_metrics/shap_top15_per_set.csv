@@ -1,0 +1,91 @@
+Set,Rank,Feature,Mean_Abs_SHAP
+A,1,num_continuous__Value For Money,1.7447455046766858
+A,2,num_continuous__Ground Service,0.7695670287202543
+A,3,num_continuous__Cabin Staff Service,0.6424464732838119
+A,4,num_continuous__Seat Comfort,0.4336528345944314
+A,5,num_continuous__Food & Beverages,0.1944965765649814
+A,6,num_continuous__review_length,0.08484287419202761
+A,7,num_binary__Verified,0.06946425094668256
+A,8,cat__Seat Type_Unknown,0.04735810179422805
+A,9,cat__Type Of Traveller_Unknown,0.042642935618074744
+A,10,num_binary__Ground Service_missing,0.03651454530486066
+A,11,num_binary__Value For Money_missing,0.019120976492668234
+A,12,num_binary__Cabin Staff Service_missing,0.012320347871319647
+A,13,cat__Seat Type_Business Class,0.012221919852066885
+A,14,cat__Seat Type_Economy Class,0.011735352691613599
+A,15,cat__Type Of Traveller_Family Leisure,0.010500507002995242
+B,1,num_continuous__vader_compound,1.3806031673912764
+B,2,num_continuous__vader_pos,0.818278924540633
+B,3,num_continuous__vader_neg,0.3515281549269441
+B,4,cat__Seat Type_Unknown,0.17066636080490236
+B,5,num_continuous__review_length,0.11209760773003583
+B,6,num_binary__Verified,0.0638513814066904
+B,7,cat__Type Of Traveller_Unknown,0.061616415893542865
+B,8,cat__Type Of Traveller_Solo Leisure,0.053251064343035864
+B,9,cat__Seat Type_Business Class,0.03873507032694427
+B,10,cat__Type Of Traveller_Family Leisure,0.03277459328431205
+B,11,num_continuous__vader_neu,0.021735436027056236
+B,12,cat__Seat Type_Economy Class,0.008794510138830538
+B,13,cat__Type Of Traveller_Business,0.005058909681424283
+B,14,cat__Type Of Traveller_Couple Leisure,0.004913846514700975
+B,15,cat__Seat Type_First Class,0.0
+C,1,num_nan__aspect_staff,1.1484731854819183
+C,2,num_nan__aspect_ground_service,0.5184072026972167
+C,3,num_continuous__review_length,0.3647635563945203
+C,4,num_nan__aspect_food,0.3334558417122657
+C,5,num_nan__aspect_seat,0.17248665988238712
+C,6,cat__Seat Type_Unknown,0.12799589176558812
+C,7,cat__Type Of Traveller_Unknown,0.050657722982888655
+C,8,cat__Seat Type_Economy Class,0.02153854564710686
+C,9,num_nan__aspect_entertainment,0.02047469988809067
+C,10,cat__Type Of Traveller_Family Leisure,0.018786781537561765
+C,11,num_binary__Verified,0.016421117962503784
+C,12,num_binary__aspect_food_missing,0.014414288944729885
+C,13,cat__Type Of Traveller_Solo Leisure,0.01434767434519141
+C,14,cat__Seat Type_Business Class,0.012035990631922023
+C,15,num_binary__aspect_staff_missing,0.011007280816436945
+D,1,num_continuous__vader_pos,0.8872785466222842
+D,2,num_continuous__vader_compound,0.8406794507129621
+D,3,num_continuous__vader_neg,0.45037288751304877
+D,4,num_nan__aspect_staff,0.365712008300806
+D,5,num_continuous__review_length,0.2795697072359694
+D,6,num_nan__aspect_food,0.27006813204286356
+D,7,cat__Seat Type_Unknown,0.20160516337799958
+D,8,num_nan__aspect_seat,0.1727391562492876
+D,9,num_nan__aspect_ground_service,0.15285771009835689
+D,10,cat__Type Of Traveller_Unknown,0.05389476214713608
+D,11,cat__Type Of Traveller_Solo Leisure,0.04945696007579345
+D,12,num_binary__Verified,0.04678031634979047
+D,13,cat__Type Of Traveller_Family Leisure,0.04568743131814141
+D,14,num_nan__aspect_entertainment,0.04292791386784094
+D,15,num_continuous__vader_neu,0.03301191523942284
+E1,1,num_continuous__absa_staff,1.1960951618905247
+E1,2,num_continuous__absa_food,0.6500379524569174
+E1,3,num_continuous__absa_ground_service,0.24109780252302634
+E1,4,num_continuous__absa_seat,0.1790959162624221
+E1,5,num_continuous__absa_entertainment,0.13163609904369644
+E1,6,cat__Seat Type_Unknown,0.1122057110010217
+E1,7,cat__Seat Type_Economy Class,0.035611079505740925
+E1,8,cat__Type Of Traveller_Unknown,0.02632578276139668
+E1,9,cat__Seat Type_Business Class,0.02140414704290153
+E1,10,num_continuous__review_length,0.020740701653667367
+E1,11,cat__Type Of Traveller_Solo Leisure,0.012000578758867777
+E1,12,num_binary__Verified,0.006291668082090811
+E1,13,cat__Type Of Traveller_Family Leisure,0.0034199962179256287
+E1,14,cat__Type Of Traveller_Couple Leisure,0.0018746492850462418
+E1,15,cat__Type Of Traveller_Business,0.00040498243818859643
+E2,1,num_nan__absa_staff_e2,1.843654073987821
+E2,2,num_nan__absa_ground_service_e2,0.8878482218180308
+E2,3,num_nan__absa_seat_e2,0.336123500709038
+E2,4,num_nan__absa_food_e2,0.2935362987916294
+E2,5,cat__Seat Type_Unknown,0.2460101388459635
+E2,6,num_continuous__review_length,0.24425065197430487
+E2,7,cat__Type Of Traveller_Solo Leisure,0.07840517710245848
+E2,8,num_nan__absa_entertainment_e2,0.07433274863577
+E2,9,cat__Type Of Traveller_Unknown,0.03784316239913043
+E2,10,cat__Type Of Traveller_Family Leisure,0.02211091676323443
+E2,11,num_binary__Verified,0.01855996841460371
+E2,12,cat__Seat Type_Business Class,0.018490102740414883
+E2,13,cat__Seat Type_Economy Class,0.009327420409269841
+E2,14,cat__Type Of Traveller_Couple Leisure,0.007709925526028679
+E2,15,num_binary__absa_staff_e2_missing,0.002391349460247393

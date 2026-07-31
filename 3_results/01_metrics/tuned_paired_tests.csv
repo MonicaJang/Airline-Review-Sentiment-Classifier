@@ -1,0 +1,10 @@
+Comparison,Set1,Set2,Model,Set1_mean_ROC_AUC,Set2_mean_ROC_AUC,Mean_diff,Wilcoxon_p,Winner,Significant_at_0.05
+Numeric vs BERT (full inference),A,E1,LightGBM (tuned),0.9843917213196827,0.9716384709074297,0.012753250412252925,0.0625,A,False
+Numeric vs BERT (keyword-gated),A,E2,LightGBM (tuned),0.9843917213196827,0.9698972599205355,0.014494461399147295,0.0625,A,False
+VADER (document) vs Rule-based (aspect),B,C,LightGBM (tuned),0.946291580869179,0.9376861985897351,0.00860538227944383,0.0625,B,False
+"VADER (document) vs Rule-based (aspect, variant D)",B,D,LightGBM (tuned),0.946291580869179,0.9528969952552335,-0.006605414386054687,0.0625,D,False
+"Rule-based (aspect) vs Rule-based (aspect, variant D)",C,D,LightGBM (tuned),0.9376861985897351,0.9528969952552335,-0.015210796665498516,0.0625,D,False
+Rule-based vs BERT (full inference),C,E1,LightGBM (tuned),0.9376861985897351,0.9716384709074297,-0.03395227231769467,0.0625,E1,False
+Rule-based vs BERT (keyword-gated),C,E2,LightGBM (tuned),0.9376861985897351,0.9698972599205355,-0.032211061330800296,0.0625,E2,False
+"Rule-based (aspect, variant D) vs BERT (full inference)",D,E1,LightGBM (tuned),0.9528969952552335,0.9716384709074297,-0.01874147565219615,0.0625,E1,False
+VADER (document) vs BERT (full inference),B,E1,LightGBM (tuned),0.946291580869179,0.9716384709074297,-0.025346890038250837,0.0625,E1,False
