@@ -128,7 +128,7 @@ Since predicted probabilities are implicitly anchored to the higher train-period
 
 **SHAP values** (`TreeExplainer`, exact Shapley values) are computed on the final tuned LightGBM pipeline for **each of the six Sets**, on the held-out chronological test set. Because each Set uses a different feature engineering methodology, raw feature names differ across Sets (e.g. Set C's `aspect_seat` vs. Set E2's `absa_seat_e2`); a verified aspect mapping is used to compare relative importance (normalized rank) across Sets on a common scale. Set B has no aspect-level breakdown (VADER scores are document-level) and is included in per-Set analysis but excluded from the cross-Set aspect comparison.
 
-### 9. COVID / Airline Control (Supplementary Only)
+### 9. COVID / Airline Control (Planned)
 
 Earlier plans included a binary COVID-period dummy as a control feature in the main model. This was revised: `Airline Name` and a COVID-period indicator are **excluded from the main predictive pipeline** entirely, since a model conditioned on these would not generalize to future, unseen data. They are instead the subject of a separate, purely descriptive supplementary notebook (see Repository Structure).
 
@@ -214,16 +214,6 @@ To reproduce the full pipeline, open and run each notebook in order via Jupyter 
 ```bash
 jupyter lab
 ```
-
----
-
-## 📊 Headline Result
-
-Across every check performed — 4 model families at default hyperparameters, 5-fold chronological CV, and after LightGBM hyperparameter tuning — the Set ranking is consistent:
-
-**A (numeric ratings) > E1 (BERT, full inference) > E2 (BERT, keyword-gated) > D (VADER + rule-based) > B (VADER) > C (rule-based)**
-
-Numeric ratings remain the strongest predictor, but BERT-based sentiment recovers most of that predictive power from text alone — relevant for deployment scenarios where numeric ratings aren't available. BERT-based methods consistently outperform rule-based/lexicon methods across every paired comparison tested.
 
 ---
 
